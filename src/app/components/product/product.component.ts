@@ -1,3 +1,4 @@
+import { CartService } from 'src/app/services/cart.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -18,6 +19,7 @@ export class ProductComponent implements OnInit {
     private productService: ProductService,
     private activatedRoute: ActivatedRoute,
     private toastrService: ToastrService,
+    private cartService: CartService,
   ) {} // ang ınjekta ediyor.
 
   ngOnInit(): void {
@@ -49,7 +51,14 @@ export class ProductComponent implements OnInit {
 
 addToCart(product:Product)
 {
+  if(product.unitsInStock > 0)
+{
+  this.cartService.addToCart(product);
   this.toastrService.success(product.productName + " adlı ürün sepete eklendi")
+}
+else{
+  this.toastrService.error(product.productName + " adlı ürün sepete eklenemedi!")
+}
 }
 
 
